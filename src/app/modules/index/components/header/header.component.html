@@ -1,0 +1,12 @@
+<mat-toolbar color="primary" class="example-toolbar">
+    <!-- Logo Image -->
+    <span [hidden]="mobileQuery.matches" class="mx-2">Logo</span>
+    <!-- Spacer -->
+    <div class="mr-auto"></div>
+
+    <a mat-stroked-button class="text-decoration-none" [routerLink]="['/auth', 'register']">Register</a> 
+    <a mat-flat-button class="text-decoration-none ml-3" color="primary" [routerLink]="['/auth', 'login']">Login</a>
+
+    <div class="toolbar-separator"></div>
+   
+  </mat-toolbar>

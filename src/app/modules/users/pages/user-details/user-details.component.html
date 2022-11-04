@@ -1,0 +1,69 @@
+<div class="page" *ngIf="user$ | async as user">
+    <div class="ten">
+        <h1>User Profile</h1>
+    </div>
+    <div class="container">
+      <div class="d-flex flex-wrap justify-content-center" *ngIf="!edit; else editForm">
+        <div class="m-4 d-flex flex-row">
+          <img [src]="user?.profile?.imageUrl" class="avatar">
+        </div>
+        <div class="flex-row ml-4 mt-4 mr-auto">
+          <h2>
+            {{user?.name}}
+          </h2>
+          <span>
+            {{user?.email}}
+          </span>
+          <button mat-raised-button color="primary" class="ml-3" (click)="toggleEdit()">
+            edit data
+          </button>
+        </div>
+      </div>
+      <ng-template #editForm>
+        <div class="d-flex flex-wrap justify-content-center">
+          <div class="m-4 d-flex flex-row">
+            <img [src]="user?.profile?.imageUrl" class="avatar">
+        </div>
+          <div class="m-4 flex-row flex-grow-1">
+            <mat-form-field class="w-100">
+              <mat-label>Name</mat-label>
+              <input matInput disabled value="Name">
+            </mat-form-field>
+            <mat-form-field class="w-100">
+              <mat-label>Email</mat-label>
+              <input matInput disabled value="achref@gmail.com">
+            </mat-form-field>
+            <div class="d-flex">
+              <div class="flex-grow-1">
+                <mat-form-field class="w-100">
+                  <mat-label>Phone</mat-label>
+                  <input matInput disabled value="+54 9 2614567890">
+                </mat-form-field>
+              </div>
+              <div>
+                <button mat-stroked-button class="ml-3">
+                  <mat-icon class="material-icons-round" [inline]="true">edit</mat-icon> Edit
+                </button>
+              </div>
+            </div>
+            <div class="d-flex">
+              <div class="flex-grow-1">
+                <mat-form-field class="w-100">
+                  <mat-label>Password</mat-label>
+                  <input matInput type="password" disabled value="•••••••••••••">
+                </mat-form-field>
+              </div>
+              <div>
+                <button mat-stroked-button class="ml-3">
+                  <mat-icon class="material-icons-round" [inline]="true">edit</mat-icon> Edit
+                </button>
+              </div>
+            </div>
+            <button mat-raised-button color="primary" (click)="toggleEdit()">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>

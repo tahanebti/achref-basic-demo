@@ -1,0 +1,22 @@
+<app-header 
+(menuToggled)="toggle()"
+[suggestions]="$any(suggestions$ | async)"
+(autoComplete)="onAutoComplete($event)"
+(searched)="onSearch($event)"
+(filtered)="onFilter($event)"
+
+></app-header>
+<mat-drawer-container>
+   
+    <mat-drawer mode="side" [opened]="opened">
+      <app-sidebar-navigation [menu]="menu"></app-sidebar-navigation>
+    </mat-drawer>
+
+    <mat-drawer-content [class.margin-left]="opened">
+      <router-outlet></router-outlet>
+    </mat-drawer-content>
+
+</mat-drawer-container>
+
+
+

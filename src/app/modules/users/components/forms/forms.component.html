@@ -1,0 +1,54 @@
+<h1 mat-dialog-title> {{ data.title }}</h1>
+
+<div mat-dialog-content>
+  <form [formGroup]="frm">
+    <mat-form-field>
+      <input matInput placeholder="Name" formControlName="name" class="person-input">
+      <!-- <mat-hint align="end">{{frm.controls.name.value?.length || 0}}/10</mat-hint>
+      <mat-error *ngIf="frm.controls.name.invalid">{{getNameErrorMessage()}}</mat-error> -->
+    </mat-form-field>
+
+    <br />
+
+    <mat-form-field>
+      <input matInput placeholder="Email" formControlName="email" class="person-input">
+    </mat-form-field>
+
+    <br />
+
+    <mat-form-field>
+      <input matInput type="number" placeholder="Phone" formControlName='phone'>
+    </mat-form-field>
+
+    <br />
+
+    <mat-form-field appearance="fill">
+        <mat-label>position</mat-label>
+            <mat-select>
+              <mat-option *ngFor="let job of jobs" [value]="job.value">
+                {{job.viewValue}}
+              </mat-option>
+            </mat-select>   
+    </mat-form-field>
+
+    <br />
+
+    <mat-radio-group formControlName='type' color="primary">
+      <label>Gender: </label> <br /><br />
+      <mat-radio-button value="Female">Basic</mat-radio-button>
+      <mat-radio-button value="Male">Business</mat-radio-button>
+    </mat-radio-group>
+
+    <mat-form-field style="visibility: hidden; height: 0vh !important">
+      <input matInput type="text" formControlName='id'>
+    </mat-form-field>
+  </form>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]>Cancelar</button>
+  <button mat-raised-button color="primary" (click)='save(frm)' class="btnSave" [disabled]="!frm.valid">
+    <mat-icon aria-label="icon-button">save </mat-icon>
+    <span>Save</span>
+  </button>
+</div>

@@ -1,0 +1,78 @@
+
+<div class="p-2 ten">
+  <h1>Categories</h1>
+</div>
+
+<div class="container">
+
+  <div class="mb-4">
+    <owl-carousel-o [options]="customOptions">
+      <ng-template carouselSlide>
+        <a class="category-group-item" routerLink="/menu" routerLinkActive="router-link-active"
+          [routerLinkActiveOptions]="{exact: true}">
+          <h1 class="category-icon"> 🍴 </h1>
+          <p> Todos </p>
+        </a>
+      </ng-template>
+      <ng-template carouselSlide *ngFor="let c of categories">
+        <a class="category-group-item" routerLink="/menu" routerLinkActive="router-link-active"
+          [queryParams]="{ category: c.url }">
+          <h1 class="category-icon"> {{ c.icon }} </h1>
+          <p> {{ c.name }} </p>
+        </a>
+      </ng-template>
+    </owl-carousel-o>
+  </div>
+  
+</div>
+
+
+<ng-container *ngIf="!isLoading && !isServer; else loadingTemplate">
+  <ng-container *ngFor="let section of this.sections$ | async">
+  
+  
+
+    <div class="ten p-2">
+      <h1>{{ section.type | uppercase }}</h1>
+    </div>
+
+    <div class="container overflow-hidden" *ngIf="users?.length; else emptyTemplate">
+     
+      <div class="row flex flex-nowrap section">
+        <div class="col col-lg-3 section_item"
+        *ngFor="let person of section.users "
+        (click)="onSelectPerson(person.id)"
+      >
+      <app-person-card [person]="person" ></app-person-card>
+      </div>
+      </div>
+     
+
+    </div>
+  </ng-container>
+</ng-container>
+  
+  <ng-template #loadingTemplate>
+    <div class="row loader-template position-relative">
+      <ng-container *ngFor="let item of items">
+        <div class="col-md-4 mb-4 loader-template__item">
+          Loading ...
+        </div>
+      </ng-container>
+    </div>
+  </ng-template>
+  
+  <ng-template #emptyTemplate>
+    <div class="emptyTemplate">
+      <div class="emptyTemplate__header">empty</div>
+  
+      <div class="emptyTemplate__text">
+        <h1 class="mat-h1">No results found</h1>
+      </div>
+    </div>
+  </ng-template>
+  
+  
+  
+  
+  
