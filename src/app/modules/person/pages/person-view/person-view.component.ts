@@ -5,6 +5,7 @@ import { OwlOptions } from 'ngx-owl-carousel-o';
 import { Observable, Subject, switchMap, tap, takeUntil, map } from 'rxjs';
 import { Person } from 'src/app/core/models/person.model';
 import { PersonService } from 'src/app/core/services/person.service';
+import { RandomDataExampleService } from 'src/app/core/services/random-data.service';
 
 const typeMap: Record<string, string> = {
   PersonBasic: 'basic',
@@ -78,7 +79,7 @@ export class PersonViewComponent implements OnInit, OnDestroy {
 
   constructor(
     private _service: PersonService,
- 
+    
     @Inject(PLATFORM_ID) private platformId: Object, //eslint-disable-line
     private router: Router,
     private route: ActivatedRoute,

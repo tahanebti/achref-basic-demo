@@ -5,8 +5,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { merge, startWith, switchMap, map, catchError, of } from 'rxjs';
+import { merge, startWith, switchMap, map, catchError, of, Observable } from 'rxjs';
+import { IPageable, Page } from 'src/app/core/models/pageable.model';
 import { PersonService } from 'src/app/core/services/person.service';
+import { RandomDataExampleService } from 'src/app/core/services/random-data.service';
 import { ConfirmComponent } from '../../components/confirm/confirm.component';
 import { FormsComponent } from '../../components/forms/forms.component';
 
@@ -34,7 +36,7 @@ export class UsersViewComponent implements AfterViewInit, OnInit {
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
     private userService: PersonService,
-  //  private authService: AuthService,
+    private _fakeRandomDataService: RandomDataExampleService,
     private router: Router,
     public dialog: MatDialog,
     public snack: MatSnackBar
@@ -49,6 +51,8 @@ export class UsersViewComponent implements AfterViewInit, OnInit {
   ngAfterViewInit() {
     // ANTES QUE LA VISTA CARGUE INICIA LA CARGA DE DATOS EN EL GRID
     this.getData();
+
+
   }
 
   ngAfterViewChecked() {
@@ -74,6 +78,27 @@ export class UsersViewComponent implements AfterViewInit, OnInit {
     this.getData()
   }
 
+
+  getFakeData(filters?: any, active?: any, direction?: any, size?: any, number?: any): Observable<any>{
+    const filterQuery: any = this.contsructFiltersQuery(filters);
+     let data  = this._fakeRandomDataService.generate()
+
+  
+    return of({
+      elements : data,
+      filter: filterQuery ?? '',
+      pageNumber: number,
+      pageSize: size,
+      active: active,
+      direction: direction
+    })
+  }
+
+  contsructFiltersQuery(filters: any) {
+   // throw new Error('Method not implemented.');
+  }
+
+
   getData(): void {
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
 
@@ -82,20 +107,20 @@ export class UsersViewComponent implements AfterViewInit, OnInit {
         startWith({}),
         switchMap(() => {
           this.isLoading = true;
-          return this.userService.findAll(
-           // this.sort.active,
-           // this.sort.direction,
-           // this.pageSize,
-           // this.page,
-           // this.search
+          return this.getFakeData(
+            this.search,
+            this.sort.active,
+            this.sort.direction,
+            this.pageSize,
+            this.page,
           );
         }),
         map(data => {
           this.isLoading = false;
           this.isTotalReached = false;
-         // this.totalItems = data.total;
-         
-          return data;
+          this.totalItems = data.elements.lenght;
+          console.log(data)
+          return data.elements;
         }),
         catchError(() => {
           this.isLoading = false;
@@ -103,7 +128,7 @@ export class UsersViewComponent implements AfterViewInit, OnInit {
           return of([]);
         })
       ).subscribe(data => {
-        console.log(data)
+       // console.log(data)
         this.dataSource.data = data
       });
   }
